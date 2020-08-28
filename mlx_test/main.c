@@ -2,7 +2,7 @@
 
 //compile command is 
 //
-// gcc main.c -lmlx -framework OpenGL -framework AppKit
+// gcc main.c -Imlx -framework OpenGL -framework AppKit
 
 typedef struct	s_data {
 	void	*img;
