@@ -72,6 +72,8 @@ void			ft_init_circle(t_circle *circle)
 int			main(void)
 {
 	t_cub		cub;
+	int		width;
+	int		height;
 
 	cub.ptr.mlx = mlx_init();
 	cub.ptr.win = mlx_new_window(cub.ptr.mlx, WIN_WIDTH, WIN_HEIGHT, "getting_start");
@@ -79,8 +81,10 @@ int			main(void)
 	cub.img.addr = mlx_get_data_addr(cub.img.img, &cub.img.bits_per_pixel, &cub.img.line_length, &cub.img.endian);
 	mlx_hook(cub.ptr.win, 2, 1L<<0, ft_key_press, &cub);
 	mlx_hook(cub.ptr.win, 3, 1L<<1, ft_key_release, &cub);
-	ft_init_circle(&cub.circle);
-	mlx_loop_hook(cub.ptr.mlx, ft_main_loop, &cub);
+//	ft_init_circle(&cub.circle);
+//	mlx_loop_hook(cub.ptr.mlx, ft_main_loop, &cub);
+	cub.img.img = mlx_xpm_file_to_image(cub.ptr.mlx, XPM_PATH, &width, &height);
+	mlx_put_image_to_window(cub.ptr.mlx, cub.ptr.win, cub.img.img, 0, 0);
 	mlx_loop(cub.ptr.mlx);
 	return (0);
 }
