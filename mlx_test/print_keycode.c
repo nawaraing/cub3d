@@ -9,6 +9,7 @@ typedef struct s_data
 
 int		ft_key_hook_print(int keycode, t_data *data)
 {
+	data =  0;
 	printf("keycode is %d\n", keycode);
 	return (0);
 }

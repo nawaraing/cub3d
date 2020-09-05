@@ -11,6 +11,8 @@ int		ft_mouse_hook_print_pos(int button, int x, int y, t_data *data)
 {
 	static int xx = 0, yy = 0;
 
+	data = 0;
+	button = 0;
 	printf("mouse moves <%d, %d>\n", x - xx, y - yy);
 	xx = x;
 	yy = y;
