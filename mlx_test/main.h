@@ -3,7 +3,6 @@
 # include "../minilibx_mms_20200219/mlx.h"
 # include "../minilibx_opengl_20191021/mlx.h"
 # include <stdlib.h>
-# include <math.h>
 
 # define	KEY_W		13
 # define	KEY_A		0
@@ -14,6 +13,9 @@
 # define	KEY_RIGHT	124
 # define	KEY_LEFT	123
 # define	KEY_ESC		53
+
+# define	WIN_WIDTH	1152
+# define	WIN_HEIGHT	720
 
 typedef struct	s_img
 {
