@@ -36,7 +36,7 @@
 # define WEST_WALL "/Users/kangjunhyeon/Desktop/cub3d/junkang/xpm_file/wall_2.xpm"
 # define NORTH_WALL "/Users/kangjunhyeon/Desktop/cub3d/junkang/xpm_file/wall_3.xpm"
 # define SOUTH_WALL "/Users/kangjunhyeon/Desktop/cub3d/junkang/xpm_file/wall_4.xpm"
-# define OBJECT "/Users/kangjunhyeon/Desktop/cub3d/junkang/xpm_file/sprite_1.xpm"
+# define SPRITE "/Users/kangjunhyeon/Desktop/cub3d/junkang/xpm_file/sprite_1.xpm"
 
 typedef struct		s_hook_data
 {
@@ -84,7 +84,6 @@ typedef struct		s_dda_data
 	int		directy;	// 1 아래	-1 위쪽
 }			t_dda_data;
 
-
 typedef struct		s_xpm
 {
 	t_image		ceil;
@@ -93,8 +92,10 @@ typedef struct		s_xpm
 	t_image		west_wall;
 	t_image		north_wall;
 	t_image		south_wall;
-	t_image		object;
+	t_image		sprite;
 }			t_xpm;
+
+
 
 typedef struct		s_cub
 {
@@ -102,6 +103,8 @@ typedef struct		s_cub
 	void		*win_ptr;
 	int		**map;
 
+	double		sprite_pos[200][2];
+	int		sprite_cnt;
 	t_image		image;
 	t_user		user;
 	t_hook_data	hook;
@@ -110,11 +113,6 @@ typedef struct		s_cub
 
 void			ft_init_cub(t_cub *cub);
 void			ft_init_map(t_cub *cub);
-
-void			ft_dda_draw(t_cub *cub, double ray_vec[2], int w);
-t_dda_data		ft_dda_dist(t_cub *cub, double ray_vec[2]);
-void			ft_dda(t_cub *cub, t_dda_data *dda_data);
-void			ft_draw(t_cub *cub, t_dda_data dda_data, double ray_vec[2], int w);
 
 int			ft_key_press(int keycode, t_cub *cub);
 int			ft_key_release(int keycode, t_cub *cub);

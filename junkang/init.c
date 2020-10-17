@@ -14,6 +14,18 @@ void		ft_init_cub(t_cub *cub)
 	cub->user.y = USER_Y;
 	cub->user.radian = USER_RADIAN;
 	cub->user.horizon = WIN_HEIGHT / 2;
+	cub->sprite_pos[0][0] = 2.5;
+	cub->sprite_pos[0][1] = 2.5;
+
+	cub->sprite_pos[1][0] = 2.5;
+	cub->sprite_pos[1][1] = 4.5;
+
+	cub->sprite_pos[2][0] = 3.5;
+	cub->sprite_pos[2][1] = 3.5;
+
+	
+	cub->sprite_cnt = 3;
+
 	
 	cub->xpm.ceil.img_ptr = mlx_xpm_file_to_image(cub->mlx_ptr, CEIL, \
 			&(cub->xpm.ceil.width), &(cub->xpm.ceil.height));
@@ -45,10 +57,10 @@ void		ft_init_cub(t_cub *cub)
 	cub->xpm.south_wall.addr = mlx_get_data_addr(cub->xpm.south_wall.img_ptr, \
 			&(cub->xpm.south_wall.bpp), &(cub->xpm.south_wall.sl), &(cub->xpm.south_wall.endian));
 
-	cub->xpm.object.img_ptr = mlx_xpm_file_to_image(cub->mlx_ptr, OBJECT, \
-			&(cub->xpm.object.width), &(cub->xpm.object.height));
-	cub->xpm.object.addr = mlx_get_data_addr(cub->xpm.object.img_ptr, \
-			&(cub->xpm.object.bpp), &(cub->xpm.object.sl), &(cub->xpm.object.endian));
+	cub->xpm.sprite.img_ptr = mlx_xpm_file_to_image(cub->mlx_ptr, SPRITE, \
+			&(cub->xpm.sprite.width), &(cub->xpm.sprite.height));
+	cub->xpm.sprite.addr = mlx_get_data_addr(cub->xpm.sprite.img_ptr, \
+			&(cub->xpm.sprite.bpp), &(cub->xpm.sprite.sl), &(cub->xpm.sprite.endian));
 }
 
 
