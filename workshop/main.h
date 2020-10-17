@@ -19,6 +19,8 @@
 
 # define	XPM_PATH	"./xpm/DSC_9167.xpm"
 
+# define	RAY_NUM		1000
+
 typedef struct	s_img
 {
 	void		*img;
@@ -52,11 +54,18 @@ typedef struct	s_mouse
 	int		right;
 }		t_mouse;
 
-typedef struct	s_circle
+typedef	struct	s_pos
 {
-	int		x;
-	int		y;
-}		t_circle;
+	float		x;
+	float		y;
+}		t_pos;
+
+typedef struct	s_camera
+{
+	t_pos		pos;
+	t_pos		dir;
+	t_pos		plane;
+}		t_camera;
 
 typedef struct	s_cub
 {

@@ -58,33 +58,38 @@ int			ft_main_loop(t_cub *cub)
 		cub->circle.x -= 1;
 	else if (cub->keyboard.right == 1)
 		cub->circle.x += 1;
-	ft_draw_circle(&cub->img, cub->circle.x, cub->circle.y, 10, 0x00FF0000);
 	mlx_put_image_to_window(cub->ptr.mlx, cub->ptr.win, cub->img.img, 0, 0);
 	return (0);
 }
 
-void			ft_init_circle(t_circle *circle)
+void			ft_init_hook(t_cub cub)
 {
-	circle->x = WIN_WIDTH / 2;
-	circle->y = WIN_HEIGHT / 2;
+	cub.hook.a = 0;
+	cub.hook.s = 0;
+	cub.hook.d = 0;
+	cub.hook.w = 0;
+	cub.hook.up = 0;
+	cub.hook.down = 0;
+	cub.hook.leftt = 0;
+	cub.hook.right = 0;
+	cub.hook.esc = 0;
 }
 
 int			main(void)
 {
 	t_cub		cub;
-	int		width;
+	int		width = 10;
 	int		height;
 
+	ft_init_hook(cub);
 	cub.ptr.mlx = mlx_init();
 	cub.ptr.win = mlx_new_window(cub.ptr.mlx, WIN_WIDTH, WIN_HEIGHT, "getting_start");
 	cub.img.img = mlx_new_image(cub.ptr.mlx, WIN_WIDTH, WIN_HEIGHT);
 	cub.img.addr = mlx_get_data_addr(cub.img.img, &cub.img.bits_per_pixel, &cub.img.line_length, &cub.img.endian);
 	mlx_hook(cub.ptr.win, 2, 1L<<0, ft_key_press, &cub);
 	mlx_hook(cub.ptr.win, 3, 1L<<1, ft_key_release, &cub);
-//	ft_init_circle(&cub.circle);
-//	mlx_loop_hook(cub.ptr.mlx, ft_main_loop, &cub);
-	cub.img.img = mlx_xpm_file_to_image(cub.ptr.mlx, XPM_PATH, &width, &height);
-	mlx_put_image_to_window(cub.ptr.mlx, cub.ptr.win, cub.img.img, 0, 0);
+	mlx_loop_hook(cub.ptr.mlx, ft_main_loop, &cub);
+//	cub.img.img = mlx_xpm_file_to_image(cub.ptr.mlx, XPM_PATH, &width, &height);
 	mlx_loop(cub.ptr.mlx);
 	return (0);
 }

@@ -17,6 +17,8 @@
 # define	WIN_WIDTH	1152
 # define	WIN_HEIGHT	720
 
+# define	XPM_PATH	"./xpm/DSC_9167.xpm"
+
 typedef struct	s_img
 {
 	void		*img;
