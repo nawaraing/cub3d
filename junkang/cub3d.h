@@ -8,7 +8,6 @@
 # include <math.h>
 # include "../minilibx_mms_20200219/mlx.h"
 # include "../minilibx_opengl_20191021/mlx.h"
-# include <stdio.h>			//
 
 # define WIN_WIDTH 600
 # define WIN_HEIGHT 400

@@ -1,5 +1,4 @@
 #include "cub3d.h"
-#include <stdio.h>				//
 
 void			ft_dda_dist(t_cub *cub, t_dda_data *dda_data)
 {
@@ -313,16 +312,23 @@ int			ft_exit(t_cub *cub)
 }
 
 
+void			ft_parse_map(t_cub *cub, const char *file_name)
+{
+	int		fd;
+
+	fd = open(file_name, O_RDONLY);
+	
+
 int			main(int argc, char *argv[])
 {
 	t_cub		cub;
 
-//	if (argc > 3 || argc < 2)
-//		return (0);			/ error
+	if (argc > 3 || argc < 2)
+		return (0);
 	cub.mlx_ptr = mlx_init();
 
-//	ft_parse_map(&cub);			/ parse map
-	ft_init_map(&cub);			//
+	ft_parse_map(&cub, argv[1]);
+//	ft_init_map(&cub);			//
 	ft_init_cub(&cub);
 
 	cub.win_ptr = mlx_new_window(cub.mlx_ptr, cub.image.width, cub.image.height, "junkang");
