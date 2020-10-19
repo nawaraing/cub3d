@@ -18,8 +18,6 @@ int		ft_key_press(int keycode, t_cub *cub)
 		cub->hook.left = 1;
 	else if (keycode == RIGHT_KEY)
 		cub->hook.right = 1;
-	else if (keycode == ESC_KEY)
-		cub->hook.esc = 1;
 	return (0);
 }
 	

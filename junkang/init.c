@@ -1,11 +1,5 @@
 #include "cub3d.h"
 
-# define WIN_WIDTH 600
-# define WIN_HEIGHT 400
-# define USER_X 4.5
-# define USER_Y 1.54
-# define USER_RADIAN 90
-
 void		ft_init_cub(t_cub *cub)
 {
 	cub->image.width = WIN_WIDTH;
@@ -14,18 +8,15 @@ void		ft_init_cub(t_cub *cub)
 	cub->user.y = USER_Y;
 	cub->user.radian = USER_RADIAN;
 	cub->user.horizon = WIN_HEIGHT / 2;
-	cub->sprite_pos[0][0] = 2.5;
-	cub->sprite_pos[0][1] = 2.5;
 
-	cub->sprite_pos[1][0] = 2.5;
-	cub->sprite_pos[1][1] = 4.5;
-
-	cub->sprite_pos[2][0] = 3.5;
-	cub->sprite_pos[2][1] = 3.5;
-
-	
-	cub->sprite_cnt = 3;
-
+	cub->hook.a = 0;
+	cub->hook.s = 0;
+	cub->hook.d = 0;
+	cub->hook.w = 0;
+	cub->hook.up = 0;
+	cub->hook.down = 0;
+	cub->hook.left = 0;
+	cub->hook.right = 0;
 	
 	cub->xpm.ceil.img_ptr = mlx_xpm_file_to_image(cub->mlx_ptr, CEIL, \
 			&(cub->xpm.ceil.width), &(cub->xpm.ceil.height));
@@ -67,7 +58,19 @@ void		ft_init_cub(t_cub *cub)
 void		ft_init_map(t_cub *cub)
 {
 	int	**map;
-	int	size = 6;
+	int	size = MAP_SIZE;
+
+//	sprite
+	cub->sprite_pos[0][0] = 2.5;
+	cub->sprite_pos[0][1] = 2.5;
+
+	cub->sprite_pos[1][0] = 2.5;
+	cub->sprite_pos[1][1] = 4.5;
+
+	cub->sprite_pos[2][0] = 3.5;
+	cub->sprite_pos[2][1] = 3.5;
+
+	cub->sprite_cnt = 3;
 
 	map = (int **)malloc(sizeof(int *) * size);
 	for (int i = 0; i < size; i++)
