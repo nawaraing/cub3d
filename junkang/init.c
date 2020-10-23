@@ -1,13 +1,18 @@
 #include "cub3d.h"
 
+
+void		ft_set_cub(t_cub *cub)
+{
+	cub->user.horizon = cub->image.height / 2;
+}
+
 void		ft_init_cub(t_cub *cub)
 {
-	cub->image.width = WIN_WIDTH;
-	cub->image.height = WIN_HEIGHT;
-	cub->user.x = USER_X;
-	cub->user.y = USER_Y;
-	cub->user.radian = USER_RADIAN;
-	cub->user.horizon = WIN_HEIGHT / 2;
+
+	for (int i = 0; i < 500; i++)
+		for (int j = 0; j < 500; j++)
+			cub->map[i][j] = 0;
+	cub->map_h = 0;
 
 	cub->hook.a = 0;
 	cub->hook.s = 0;
@@ -17,7 +22,18 @@ void		ft_init_cub(t_cub *cub)
 	cub->hook.down = 0;
 	cub->hook.left = 0;
 	cub->hook.right = 0;
+
+	cub->xpm.floor_color = 0;
+	cub->xpm.ceil_color = 0;
+
+	for (int i = 0; i < 200; i++)
+		for (int j = 0; j < 2; j++)
+			cub->sprite_pos[i][j] = 0;
+	cub->sprite_cnt = 0;
 	
+	
+}
+/*	
 	cub->xpm.ceil.img_ptr = mlx_xpm_file_to_image(cub->mlx_ptr, CEIL, \
 			&(cub->xpm.ceil.width), &(cub->xpm.ceil.height));
 	cub->xpm.ceil.addr = mlx_get_data_addr(cub->xpm.ceil.img_ptr, \
@@ -53,11 +69,11 @@ void		ft_init_cub(t_cub *cub)
 	cub->xpm.sprite.addr = mlx_get_data_addr(cub->xpm.sprite.img_ptr, \
 			&(cub->xpm.sprite.bpp), &(cub->xpm.sprite.sl), &(cub->xpm.sprite.endian));
 }
-
-
+*/
+/*
 void		ft_init_map(t_cub *cub)
 {
-	int	**map;
+	int	*map[500];
 	int	size = MAP_SIZE;
 
 //	sprite
@@ -89,4 +105,4 @@ void		ft_init_map(t_cub *cub)
 		map[size - 1][i] = 1;
 	}
 	cub->map = map;
-}
+*/

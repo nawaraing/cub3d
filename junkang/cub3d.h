@@ -6,19 +6,16 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <math.h>
+# include <limits.h>
 # include "../minilibx_mms_20200219/mlx.h"
 # include "../minilibx_opengl_20191021/mlx.h"
+# include "gnl/get_next_line.h"
 
-# define WIN_WIDTH 600
-# define WIN_HEIGHT 400
-# define MAP_SIZE 6
-# define USER_X 4.0
-# define USER_Y 3.5
-# define USER_RADIAN 180
+# include <stdio.h>		//
 
 # define MOVE_VELO 0.05
 # define TURN_VELO 1
-
+/*
 # define CEIL "/Users/kangjunhyeon/Desktop/cub3d/junkang/xpm_file/sky_1.xpm"
 # define FLOOR "/Users/kangjunhyeon/Desktop/cub3d/junkang/xpm_file/floor_1.xpm"
 # define EAST_WALL "/Users/kangjunhyeon/Desktop/cub3d/junkang/xpm_file/wall_1.xpm"
@@ -26,7 +23,7 @@
 # define NORTH_WALL "/Users/kangjunhyeon/Desktop/cub3d/junkang/xpm_file/wall_3.xpm"
 # define SOUTH_WALL "/Users/kangjunhyeon/Desktop/cub3d/junkang/xpm_file/wall_4.xpm"
 # define SPRITE "/Users/kangjunhyeon/Desktop/cub3d/junkang/xpm_file/sprite_1.xpm"
-
+*/
 # define A_KEY 0
 # define S_KEY 1
 # define D_KEY 2
@@ -66,7 +63,6 @@ typedef struct		s_user
 
 	int		radian;
 	int		horizon;
-	double		view_angle;
 }			t_user;
 
 typedef struct		s_image
@@ -105,13 +101,16 @@ typedef struct		s_xpm
 	t_image		north_wall;
 	t_image		south_wall;
 	t_image		sprite;
+	int		floor_color;
+	int		ceil_color;
 }			t_xpm;
 
 typedef struct		s_cub
 {
 	void		*mlx_ptr;
 	void		*win_ptr;
-	int		**map;
+	int		map[500][500];
+	int		map_h;
 
 	t_image		image;
 	t_user		user;
@@ -126,10 +125,11 @@ typedef struct		s_cub
 //		main
 int			main_loop(t_cub *cub);
 void			ft_put_image(t_cub *cub, double camera_vec[2]);
+void	ft_write(t_cub *cub); //
 
 //		init
 void			ft_init_cub(t_cub *cub);
-void			ft_init_map(t_cub *cub);
+void			ft_set_cub(t_cub *cub);
 //		hook
 int			ft_key_press(int keycode, t_cub *cub);
 int			ft_key_release(int keycode, t_cub *cub);
@@ -142,5 +142,12 @@ void			ft_turn(t_cub *cub);
 size_t			ft_strlen(const char *s);
 int			ft_memcmp(const void *s1, const void *s2, size_t n);
 void			*ft_memset(void *ptr, int value, size_t num);
+int			ft_isspace(char c);
+int			ft_atoi(const char *nptr);
+char			*ft_strdup(const char *s);
+int			ft_isnum(char digit);
+
+//		get_next_line
+//int			get_next_line(int fd, char **line);
 
 #endif

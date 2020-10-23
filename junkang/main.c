@@ -1,5 +1,7 @@
 #include "cub3d.h"
 
+void			ft_write(t_cub *cub);
+
 void			ft_dda_dist(t_cub *cub, t_dda_data *dda_data)
 {
 	t_dda_data	dda;
@@ -7,6 +9,7 @@ void			ft_dda_dist(t_cub *cub, t_dda_data *dda_data)
 	dda = *dda_data;
 	dda.x = (int)cub->user.x;
 	dda.y = (int)cub->user.y;
+//	printf("w : %d\t\tuser x : %f\t\ty : %f\n", dda.w, cub->user.x, cub->user.y);
 	dda.dx = 1 / fabs(dda.ray_vec[0]);
 	dda.dy = 1 / fabs(dda.ray_vec[1]);
 	dda.directx = 1;
@@ -30,6 +33,7 @@ void			ft_dda_dist(t_cub *cub, t_dda_data *dda_data)
 
 void			ft_dda(t_cub *cub, t_dda_data *dda_data)
 {
+//	printf("w : %d\t\tdda x : %d\t\ty : %d\n", dda_data->w, dda_data->x, dda_data->y);
 	while (1)
 	{
 		if (dda_data->sidex > dda_data->sidey)
@@ -47,6 +51,7 @@ void			ft_dda(t_cub *cub, t_dda_data *dda_data)
 			dda_data->sidex += dda_data->dx;
 		}
 	}
+//	printf("w : %d\t\tray_vec x : %f\t\ty : %f\n", dda_data->w, dda_data->ray_vec[0], dda_data->ray_vec[1]);
 }
 
 void			ft_hit_point(t_cub *cub, t_dda_data *dda_data)
@@ -124,7 +129,8 @@ void			ft_ceil_floor_draw(t_cub *cub, t_dda_data dda_data, int i)
 	xpm[1] = (xpm[1] - floor(xpm[1])) * xpm_img.height;
 	xpm_addr = (int *)xpm_img.addr;
 	img_addr = (int *)cub->image.addr;
-	img_addr[dda_data.w + i * cub->image.sl / 4] = xpm_addr[(int)(xpm[1]) * xpm_img.sl / 4 + (int)xpm[0]];
+	img_addr[dda_data.w + i * cub->image.sl / 4] = xpm_addr[(int)(xpm[1]) \
+						* xpm_img.sl / 4 + (int)xpm[0]];
 }
 
 void			ft_draw_wall(t_cub *cub, t_dda_data dda_data, double *dist_to_wall)
@@ -151,7 +157,8 @@ void			ft_draw_wall(t_cub *cub, t_dda_data dda_data, double *dist_to_wall)
 	{
 		if (i >= wall_start && i <= wall_height / 2 + cub->user.horizon)
 			ft_put_wall(cub, dda_data, i, wall_height);
-		else ft_ceil_floor_draw(cub, dda_data, i);
+		else
+			ft_ceil_floor_draw(cub, dda_data, i);
 	}
 }
 
@@ -311,13 +318,441 @@ int			ft_exit(t_cub *cub)
 	return (0);
 }
 
+char			ft_check_identifier(char *buf)
+{
+	if (buf[0] == 'R')
+		return ('r');
+	else if (buf[0] == 'N' && buf[1] == 'O')
+		return ('N');
+	else if (buf[0] == 'S' && buf[1] == 'O')
+		return ('S');
+	else if (buf[0] == 'W' && buf[1] == 'E')
+		return ('W');
+	else if (buf[0] == 'E' && buf[1] == 'A')
+		return ('E');
+	else if (buf[0] == 'S')
+		return ('s');
+	else if (buf[0] == 'F')
+		return ('f');
+	else if (buf[0] == 'C')
+		return ('c');
+	else if (buf[0] == '\n')
+		return (0);
+	return (-1);
+}
 
-void			ft_parse_map(t_cub *cub, const char *file_name)
+int			ft_parse_render(t_cub *cub, char *buf)
+{
+	if (*(buf++) != 'R')
+		return (-1);
+	if (!ft_isspace(*buf))
+		return (-1);
+	cub->image.width = ft_atoi(buf);
+	while (*buf && ft_isspace(*buf))
+		buf++;
+	while (*buf && ft_isnum(*buf))
+		buf++;
+	cub->image.height = ft_atoi(buf);
+	while (*buf && ft_isspace(*buf))
+		buf++;
+	if (*buf == 0)
+		return (-1);
+	while (*buf && ft_isnum(*buf))
+		buf++;
+	if (*buf)
+		return (-1);
+	return (1);
+}
+
+int			ft_parse_sprite(t_cub *cub, char *buf)
+{
+	char		*path;
+	void		*tmp;
+
+	if (*(buf++) != 'S')
+		return (-1);
+	while (*buf && ft_isspace(*buf))
+		buf++;
+	path = ft_strdup(buf);
+	tmp = mlx_xpm_file_to_image(cub->mlx_ptr, path, \
+			&(cub->xpm.sprite.width), \
+			&(cub->xpm.sprite.height));
+	free(path);
+	if (tmp == 0)
+		return (-1);
+	cub->xpm.sprite.img_ptr = tmp;
+	cub->xpm.sprite.addr = mlx_get_data_addr(tmp, \
+			&(cub->xpm.sprite.bpp), &(cub->xpm.sprite.sl),\
+			&(cub->xpm.sprite.endian));
+	while (*buf && !ft_isspace(*buf))
+		buf++;
+	if (*buf)
+		return (-1);
+	return (1);
+}
+
+int			ft_parse_north(t_cub *cub, char *buf)
+{
+	char		*path;
+	void		*tmp;
+
+	if (*buf != 'N' || *(buf + 1) != 'O') return (-1);
+	buf += 2 * sizeof(char);
+	while (*buf && ft_isspace(*buf))
+		buf++;
+	path = ft_strdup(buf);
+	tmp = mlx_xpm_file_to_image(cub->mlx_ptr, path, \
+			&(cub->xpm.north_wall.width), \
+			&(cub->xpm.north_wall.height));
+	free(path);
+	if (tmp == 0)
+		return (-1);
+	cub->xpm.north_wall.img_ptr = tmp;
+	cub->xpm.north_wall.addr = mlx_get_data_addr(tmp, \
+			&(cub->xpm.north_wall.bpp), &(cub->xpm.north_wall.sl),\
+			&(cub->xpm.north_wall.endian));
+	while (*buf && !ft_isspace(*buf))
+		buf++;
+	if (*buf)
+		return (-1);
+	return (1);
+}
+
+int			ft_parse_south(t_cub *cub, char *buf)
+{
+	char		*path;
+	void		*tmp;
+
+	if (*buf != 'S' || *(buf + 1) != 'O') return (-1);
+	buf += 2 * sizeof(char);
+	while (*buf && ft_isspace(*buf))
+		buf++;
+	path = ft_strdup(buf);
+	tmp = mlx_xpm_file_to_image(cub->mlx_ptr, path, \
+			&(cub->xpm.south_wall.width), \
+			&(cub->xpm.south_wall.height));
+	free(path);
+	if (tmp == 0)
+		return (-1);
+	cub->xpm.south_wall.img_ptr = tmp;
+	cub->xpm.south_wall.addr = mlx_get_data_addr(tmp, \
+			&(cub->xpm.south_wall.bpp), &(cub->xpm.south_wall.sl),\
+			&(cub->xpm.south_wall.endian));
+	while (*buf && !ft_isspace(*buf))
+		buf++;
+	if (*buf)
+		return (-1);
+	return (1);
+}
+
+int			ft_parse_east(t_cub *cub, char *buf)
+{
+	char		*path;
+	void		*tmp;
+
+	if (*buf != 'E' || *(buf + 1) != 'A') return (-1);
+	buf += 2 * sizeof(char);
+	while (*buf && ft_isspace(*buf))
+		buf++;
+	path = ft_strdup(buf);
+	tmp = mlx_xpm_file_to_image(cub->mlx_ptr, path, \
+			&(cub->xpm.east_wall.width), \
+			&(cub->xpm.east_wall.height));
+	free(path);
+	if (tmp == 0)
+		return (-1);
+	cub->xpm.east_wall.img_ptr = tmp;
+	cub->xpm.east_wall.addr = mlx_get_data_addr(tmp, \
+			&(cub->xpm.east_wall.bpp), &(cub->xpm.east_wall.sl),\
+			&(cub->xpm.east_wall.endian));
+	while (*buf && !ft_isspace(*buf))
+		buf++;
+	if (*buf)
+		return (-1);
+	return (1);
+}
+
+int			ft_parse_west(t_cub *cub, char *buf)
+{
+	char		*path;
+	void		*tmp;
+
+	if (*buf != 'W' || *(buf + 1) != 'E')
+		return (-1);
+	buf += 2 * sizeof(char);
+	while (*buf && ft_isspace(*buf))
+		buf++;
+	path = ft_strdup(buf);
+	tmp = mlx_xpm_file_to_image(cub->mlx_ptr, path, \
+			&(cub->xpm.west_wall.width), \
+			&(cub->xpm.west_wall.height));
+	free(path);
+	if (tmp == 0)
+		return (-1);
+	cub->xpm.west_wall.img_ptr = tmp;
+	cub->xpm.west_wall.addr = mlx_get_data_addr(tmp, \
+			&(cub->xpm.west_wall.bpp), &(cub->xpm.west_wall.sl),\
+			&(cub->xpm.west_wall.endian));
+	while (*buf && !ft_isspace(*buf))
+		buf++;
+	if (*buf)
+		return (-1);
+	return (1);
+}
+
+int			ft_parse_path(t_cub *cub, char *buf, char type)
+{
+	char		*path;
+	void		*tmp;
+	t_image		*xpm_img;
+
+	if (*buf != '.' || *(buf + 1) != '/')
+		return (-1);
+	if (type == 'F')
+		xpm_img = &(cub->xpm.floor);
+	else
+		xpm_img = &(cub->xpm.ceil);
+	path = ft_strdup(buf);
+	tmp = mlx_xpm_file_to_image(cub->mlx_ptr, path, \
+			&((*xpm_img).width), &((*xpm_img).height));
+	free(path);
+	if (tmp == 0)
+		return (-1);
+	(*xpm_img).img_ptr = tmp;
+	(*xpm_img).addr = mlx_get_data_addr(tmp, &((*xpm_img).bpp), \
+			&((*xpm_img).sl), &((*xpm_img).endian));
+	while (*buf && !ft_isspace(*buf))
+		buf++;
+	if (*buf)
+		return (-1);
+	return (1);
+}
+
+int			ft_parse_color(char *buf)	// 0~255 밖의 숫자가 들어올 경우
+{
+	int		color;
+
+	if (!ft_isnum(*buf))
+		return (-1);
+	color = 0;
+	color |= (ft_atoi(buf) << 16);
+	while (*buf && ft_isnum(*buf))
+		buf++;
+	if (*(buf++) != ',')
+		return (-1);
+	color |= (ft_atoi(buf) << 8);
+	while (*buf && ft_isnum(*buf))
+		buf++;
+	if (*(buf++) != ',')
+		return (-1);
+	color |= ft_atoi(buf);
+	while (*buf && ft_isnum(*buf))
+		buf++;
+	if (*buf)
+		return (-1);
+	return (color);
+}
+
+int			ft_parse_floor_ceil(t_cub *cub, char *buf)
+{
+	char		type;
+	int		color;
+
+	if (*buf != 'F' && *buf != 'C')
+		return (-1);
+	type = *buf;
+	buf++;
+	while (*buf && ft_isspace(*buf))
+		buf++;
+	if (*buf == '.' && *(buf + 1) == '/')
+	{
+		if (ft_parse_path(cub, buf, type) == -1)
+			return (-1);
+	}
+	else
+		if ((color = ft_parse_color(buf)) == -1)
+			return (-1);
+	if (type == 'F')
+		cub->xpm.floor_color = color;
+	else
+		cub->xpm.ceil_color = color;
+	return (1);
+}
+
+int			ft_parse_identifier(t_cub *cub, char *buf, int id)
+{
+	static int		cnt = 0;
+
+	if (cnt >= 8)
+		return (8);
+	if (id == 'r' && ft_parse_render(cub, buf) == -1)
+		return (-1);
+	else if (id == 'N' && ft_parse_north(cub, buf) == -1)
+		return (-1);
+	else if (id == 'S' && ft_parse_south(cub, buf) == -1)
+		return (-1);
+	else if (id == 'W' && ft_parse_west(cub, buf) == -1)
+		return (-1);
+	else if (id == 'E' && ft_parse_east(cub, buf) == -1)
+		return (-1);
+	else if (id == 's' && ft_parse_sprite(cub, buf) == -1)
+		return (-1);
+	else if ((id == 'f' || id == 'c') && \
+			ft_parse_floor_ceil(cub, buf) == -1)
+		return (-1);
+	else if (id == 0)
+		return (0);
+	else if (id == -1)
+		return (-1);
+	cnt++;
+	return (cnt);
+}
+
+void			ft_parse_map(t_cub *cub, char *buf)
+{
+	int		i;
+
+	i = -1;
+	while (*(buf + ++i))
+	{
+		if (*(buf + i) == '0')
+			cub->map[cub->map_h][i] = 9;
+		else if (*(buf + i) == '1')
+			cub->map[cub->map_h][i] = 1;
+		else if (*(buf + i) == '2')
+		{
+			cub->map[cub->map_h][i] = 2;
+			cub->sprite_pos[cub->sprite_cnt][0] = i + 0.5;
+			cub->sprite_pos[cub->sprite_cnt][1] = cub->map_h + 0.5;
+			cub->sprite_cnt++;
+		}
+		else if (*(buf + i)  == ' ')
+			cub->map[cub->map_h][i] = ' ';
+		else
+		{
+			if (*(buf + i) == 'E')
+				cub->user.radian = 0;
+			else if (*(buf + i) == 'N')
+				cub->user.radian = 90;
+			else if (*(buf + i) == 'W')
+				cub->user.radian = 180;
+			else if (*(buf + i) == 'S')
+				cub->user.radian = 270;
+			cub->map[cub->map_h][i] = 3;
+			cub->user.x = (double)i + 0.5;
+			cub->user.y = (double)cub->map_h + 0.5;
+		}
+	}
+	(cub->map_h)++;
+}
+
+int			ft_check_vertical(t_cub *cub, int i, int j, int set)
+{
+	while (cub->map[i][j] != 1)
+	{
+		if (!(cub->map[i][j]))
+			return (-1);
+		if (set == 0)
+			j++;
+		else if (set == 1)
+			j--;
+		else if (set == 2)
+			i++;
+		else if (set == 3)
+			i--;
+	}
+	return (1);
+}
+
+int			ft_valid_map(t_cub *cub)
+{
+	int		i;
+	int		j;
+
+	i = -1;
+	while (++i < cub->map_h)
+		if (cub->map[i][0])
+			break ;
+	if (i == cub->map_h)
+		return (-1);
+	i--;
+	while (++i < cub->map_h)
+	{
+		j = 0;
+		while (cub->map[i][j])
+		{
+			if (cub->map[i][j] == 1 || cub->map[i][j] == ' ')
+			{
+				j++;
+				continue ;
+			}
+			if (ft_check_vertical(cub, i, j, 0) == -1)
+				return (-1);
+			else if (ft_check_vertical(cub, i, j, 1) == -1)
+				return (-1);
+			else if (ft_check_vertical(cub, i, j, 2) == -1)
+				return (-1);
+			else if (ft_check_vertical(cub, i, j, 3) == -1)
+				return (-1);
+			j++;
+		}
+	}
+	return (1);
+}
+
+int			ft_parse_file(t_cub *cub, const char *file_name)
 {
 	int		fd;
+	int		ret;
+	char		*buf;
+	char		id;
+	int		cnt;
 
 	fd = open(file_name, O_RDONLY);
-	
+	id = 0;
+	while ((ret = get_next_line(fd, &buf)) > 0)
+	{
+		id = ft_check_identifier(buf);
+		if (cnt == 8)
+			ft_parse_map(cub, buf);
+		cnt = ft_parse_identifier(cub, buf, id);
+		free(buf);
+		if (cnt == -1)
+			break ;
+	}
+	close(fd);
+	if (ret == -1 || cnt == -1 || ft_valid_map(cub) == -1)
+		return (-1);
+	return (1);
+}
+
+void ft_write(t_cub *cub) {
+	printf("map\n");
+	for (int i = 0; i < cub->map_h; i++)
+	{
+		for (int j = 0; cub->map[i][j]; j++)
+		{
+			if (cub->map[i][j] == 32)
+				printf(" ");
+			else printf("%d", cub->map[i][j]);
+		}
+		printf("\n");
+	}
+	printf("map_h : %d\n", cub->map_h);
+	printf("image width : %d\t\timage height : %d\n", cub->image.width, cub->image.height);
+	printf("user x : %f\t\tuser y : %f\n", cub->user.x, cub->user.y);
+	printf("user horizon : %d\n", cub->user.horizon);
+		
+	printf("xpm w1\t\t h : %d\t\tw : %d\n", cub->xpm.east_wall.height, cub->xpm.east_wall.width);
+	printf("xpm w2\t\t h : %d\t\tw : %d\n", cub->xpm.west_wall.height, cub->xpm.west_wall.width);
+	printf("xpm w3\t\t h : %d\t\tw : %d\n", cub->xpm.north_wall.height, cub->xpm.north_wall.width);
+	printf("xpm w4\t\t h : %d\t\tw : %d\n", cub->xpm.south_wall.height, cub->xpm.south_wall.width);
+	printf("xpm f\t\t h : %d\t\tw : %d\n", cub->xpm.floor.height, cub->xpm.floor.width);
+	printf("xpm c\t\t h : %d\t\tw : %d\n", cub->xpm.ceil.height, cub->xpm.ceil.width);
+	for (int i = 0; i < cub->sprite_cnt; i++)
+		printf("sp%d\t\tx : %f\t\ty : %f\n", i, cub->sprite_pos[i][0], cub->sprite_pos[i][1]);
+	printf("sprite_cnt : %d\n", cub->sprite_cnt);
+}
 
 int			main(int argc, char *argv[])
 {
@@ -326,21 +761,24 @@ int			main(int argc, char *argv[])
 	if (argc > 3 || argc < 2)
 		return (0);
 	cub.mlx_ptr = mlx_init();
-
-	ft_parse_map(&cub, argv[1]);
-//	ft_init_map(&cub);			//
 	ft_init_cub(&cub);
-
+	if (ft_parse_file(&cub, argv[1]) == -1)
+	{
+		write(1, "Error\n", 6);
+		exit(0);
+	}
+	ft_set_cub(&cub);
 	cub.win_ptr = mlx_new_window(cub.mlx_ptr, cub.image.width, cub.image.height, "junkang");
 	cub.image.img_ptr = mlx_new_image(cub.mlx_ptr, cub.image.width, cub.image.height);
 	cub.image.addr = mlx_get_data_addr(cub.image.img_ptr, &cub.image.bpp, &cub.image.sl, &cub.image.endian);
 	if (argc == 3 && !ft_memcmp(argv[2], "--save", ft_strlen("--save")))
-	{	
+	{
 		ft_screenshot(&cub);
 		return (0);
 	}
 	mlx_hook(cub.win_ptr, KEYPRESS_EVENT, KEYPRESS_MASK, ft_key_press, &cub);
 	mlx_hook(cub.win_ptr, KEYRELEASE_EVENT, KEYRELEASE_MASK, ft_key_release, &cub);
+//	ft_write(&cub);					//
 	mlx_hook(cub.win_ptr, EXIT_EVENT, 0, ft_exit, &cub); 
 	mlx_loop_hook(cub.mlx_ptr, main_loop, &cub);
 	mlx_loop(cub.mlx_ptr);
