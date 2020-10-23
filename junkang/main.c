@@ -33,7 +33,6 @@ void			ft_dda_dist(t_cub *cub, t_dda_data *dda_data)
 
 void			ft_dda(t_cub *cub, t_dda_data *dda_data)
 {
-//	printf("w : %d\t\tdda x : %d\t\ty : %d\n", dda_data->w, dda_data->x, dda_data->y);
 	while (1)
 	{
 		if (dda_data->sidex > dda_data->sidey)
@@ -51,7 +50,6 @@ void			ft_dda(t_cub *cub, t_dda_data *dda_data)
 			dda_data->sidex += dda_data->dx;
 		}
 	}
-//	printf("w : %d\t\tray_vec x : %f\t\ty : %f\n", dda_data->w, dda_data->ray_vec[0], dda_data->ray_vec[1]);
 }
 
 void			ft_hit_point(t_cub *cub, t_dda_data *dda_data)
