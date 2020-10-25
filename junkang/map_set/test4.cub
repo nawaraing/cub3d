@@ -4,12 +4,12 @@ SO ./xpm_file/wall_2.xpm
 WE ./xpm_file/wall_3.xpm
 EA ./xpm_file/wall_4.xpm
 S ./xpm_file/sprite_1.xpm
-F ./xpm_file/floor_1.xpm
-C ./xpm_file/sky_1.xpm
+F 0,0,0
+C 255,255,255
 
 111111
-1200S1
-102021
-101001
+1000S1
+100001
+100001
 100001
 111111

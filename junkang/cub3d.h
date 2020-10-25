@@ -15,15 +15,7 @@
 
 # define MOVE_VELO 0.05
 # define TURN_VELO 1
-/*
-# define CEIL "/Users/kangjunhyeon/Desktop/cub3d/junkang/xpm_file/sky_1.xpm"
-# define FLOOR "/Users/kangjunhyeon/Desktop/cub3d/junkang/xpm_file/floor_1.xpm"
-# define EAST_WALL "/Users/kangjunhyeon/Desktop/cub3d/junkang/xpm_file/wall_1.xpm"
-# define WEST_WALL "/Users/kangjunhyeon/Desktop/cub3d/junkang/xpm_file/wall_2.xpm"
-# define NORTH_WALL "/Users/kangjunhyeon/Desktop/cub3d/junkang/xpm_file/wall_3.xpm"
-# define SOUTH_WALL "/Users/kangjunhyeon/Desktop/cub3d/junkang/xpm_file/wall_4.xpm"
-# define SPRITE "/Users/kangjunhyeon/Desktop/cub3d/junkang/xpm_file/sprite_1.xpm"
-*/
+
 # define A_KEY 0
 # define S_KEY 1
 # define D_KEY 2
@@ -43,6 +35,7 @@
 
 # define PI 3.1415926535897
 # define RATIO 0.64940759319		// tan33
+# define MAX_SP_NUM 100
 
 typedef struct		s_hook_data
 {
@@ -125,11 +118,13 @@ typedef struct		s_cub
 //		main
 int			main_loop(t_cub *cub);
 void			ft_put_image(t_cub *cub, double camera_vec[2]);
-void	ft_write(t_cub *cub); //
+int			ft_parse_file(t_cub *cub, const char *file_name);
 
 //		init
-void			ft_init_cub(t_cub *cub);
-void			ft_set_cub(t_cub *cub);
+int			ft_init_cub(t_cub *cub, int argc, char *argv[]);
+void			ft_init_img_and_addr(t_cub *cub);
+void			ft_init_map(t_cub *cub);
+void			ft_init_hook(t_cub *cub);
 //		hook
 int			ft_key_press(int keycode, t_cub *cub);
 int			ft_key_release(int keycode, t_cub *cub);

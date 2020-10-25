@@ -27,18 +27,18 @@ void			ft_move(t_cub *cub, double camera_vec[2])
 	{
 		next_x = cub->user.x + MOVE_VELO * -camera_vec[1];
 		next_y = cub->user.y - MOVE_VELO * camera_vec[0];;
-		nn_x = cub->user.x + 2 * MOVE_VELO * camera_vec[1];
+		nn_x = cub->user.x + 2 * MOVE_VELO * -camera_vec[1];
 		nn_y = cub->user.y - 2 * MOVE_VELO * camera_vec[0];
 	}
 	else if (!hk.w && !hk.a && !hk.s && hk.d)
 	{
 		next_x = cub->user.x - MOVE_VELO * -camera_vec[1];
 		next_y = cub->user.y + MOVE_VELO * camera_vec[0];;
-		nn_x = cub->user.x - 2 * MOVE_VELO * camera_vec[1];
+		nn_x = cub->user.x - 2 * MOVE_VELO * -camera_vec[1];
 		nn_y = cub->user.y + 2 * MOVE_VELO * camera_vec[0];
 	}
-	if (cub->map[(int)next_y][(int)next_x] == 9 || \
-			cub->map[(int)next_y][(int)next_x] == 3)
+	if (cub->map[(int)nn_y][(int)nn_x] == 9 || \
+			cub->map[(int)nn_y][(int)nn_x] == 3)
 	{
 		cub->user.x = next_x;
 		cub->user.y = next_y;

@@ -3,7 +3,7 @@
 int		ft_atoi(const char *nptr)
 {
 	unsigned long long		res;
-	int						sign;
+	int				sign;
 
 	res = 0;
 	while ((*nptr >= 9 && *nptr <= 13) || *nptr == 32)

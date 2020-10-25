@@ -62,9 +62,12 @@ void		ft_screenshot(t_cub *cub)
 	int		filesize;
 	double		camera[2];
 
+	camera[0] = cos((double)cub->user.radian * PI / 180);
+	camera[1] = sin((double)cub->user.radian * PI / 180);
 	ft_put_image(cub, camera);
 	filesize = 54 + (3 * cub->image.width * cub->image.height);
-	if ((fd = open("shot.bmp", O_CREAT | O_WRONLY | O_TRUNC | O_APPEND, 0777)) < 0)
+	if ((fd = open("shot.bmp", O_CREAT | O_WRONLY | O_TRUNC | O_APPEND, \
+					0777)) < 0)
 		return ;
 	ft_bmp_header(fd, filesize, &(cub->image));
 	ft_put_pixels(fd, &(cub->image));
