@@ -14,14 +14,19 @@ void		ft_init_hook(t_cub *cub)
 
 void		ft_init_map(t_cub *cub)
 {
-	for (int i = 0; i < 500; i++)
-		for (int j = 0; j < 500; j++)
+	for (int i = 0; i < MAX_MAP_NUM; i++)
+		for (int j = 0; j < MAX_MAP_NUM; j++)
 			cub->map[i][j] = 0;
 	cub->map_h = 0;
 }
 
 void		ft_init_img_and_addr(t_cub *cub)
 {
+	int		mainDisplayId;
+
+	mainDisplayId = CGMainDisplayID();
+	cub->image.width = CGDisplayPixelsWide(mainDisplayId);
+	cub->image.height = CGDisplayPixelsHigh(mainDisplayId);
 	cub->xpm.floor.img_ptr = 0;
 	cub->xpm.ceil.img_ptr = 0;
 	cub->xpm.north_wall.img_ptr = 0;
@@ -48,7 +53,7 @@ int		ft_init_cub(t_cub *cub, int argc, char *argv[])
 	ft_init_map(cub);
 	ft_init_hook(cub);
 	ft_init_img_and_addr(cub);
-	for (int i = 0; i < 200; i++)
+	for (int i = 0; i < MAX_SP_NUM; i++)
 		for (int j = 0; j < 2; j++)
 			cub->sprite_pos[i][j] = 0;
 	cub->sprite_cnt = 0;

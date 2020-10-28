@@ -1,4 +1,4 @@
-R 1920 1080
+R 1920 00
 NO ./xpm_file/wall_1.xpm
 SO ./xpm_file/wall_2.xpm
 WE ./xpm_file/wall_3.xpm

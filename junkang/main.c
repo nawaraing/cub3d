@@ -150,7 +150,7 @@ void			ft_draw_ceil(t_cub *cub, t_dda_data dda, int i)
 	img_addr[dda.w + i * cub->image.sl / 4] = color;
 }
 
-void			ft_draw_wall(t_cub *cub, t_dda_data dda, double *dist_to_wall)
+void			ft_draw_background(t_cub *cub, t_dda_data dda, double *dist_to_wall)
 {
 	int		wall_height;
 	int		wall_start;
@@ -177,7 +177,7 @@ void			ft_draw_wall(t_cub *cub, t_dda_data dda, double *dist_to_wall)
 	}
 }
 
-void			ft_sort(double vec[100][5], int cnt)
+void			ft_sort(double vec[MAX_SP_NUM][5], int cnt)
 {
 	int		i;
 	int		j;
@@ -310,7 +310,7 @@ void			ft_draw_sprite(t_cub *cub, double camera[2], double *dist_to_wall)
 		ft_put_sprite(cub, sp_vec_size_posx_dist[i], dist_to_wall);
 }
 
-void			ft_put_image(t_cub *cub, double camera_vec[2])
+void			ft_put_image(t_cub *cub, double camera[2])
 {
 	int		w;
 	t_dda_data	dda_data;
@@ -320,16 +320,16 @@ void			ft_put_image(t_cub *cub, double camera_vec[2])
 	w = -1;
 	while (++w < cub->image.width)
 	{
-		dda_data.ray_vec[0] = camera_vec[0] + camera_vec[1] * \
+		dda_data.ray_vec[0] = camera[0] + camera[1] * \
 				      (2 * w - cub->image.width) * RATIO / \
 				      cub->image.width;
-		dda_data.ray_vec[1] = camera_vec[1] - camera_vec[0] * \
+		dda_data.ray_vec[1] = camera[1] - camera[0] * \
 				      (2 * w - cub->image.width) * RATIO / \
 				      cub->image.width;
 		dda_data.w = w;
-		ft_draw_wall(cub, dda_data, dist_to_wall);
+		ft_draw_background(cub, dda_data, dist_to_wall);
 	}
-	ft_draw_sprite(cub, camera_vec, dist_to_wall);
+	ft_draw_sprite(cub, camera, dist_to_wall);
 	free(dist_to_wall);
 }
 
@@ -383,12 +383,14 @@ int			ft_parse_render(t_cub *cub, char *buf)
 		return (-1);
 	if (!ft_isspace(*buf))
 		return (-1);
-	cub->image.width = ft_atoi(buf);
+	if (cub->image.width > ft_atoi(buf))
+		cub->image.width = ft_atoi(buf);
 	while (*buf && ft_isspace(*buf))
 		buf++;
 	while (*buf && ft_isnum(*buf))
 		buf++;
-	cub->image.height = ft_atoi(buf);
+	if (cub->image.height > ft_atoi(buf))
+		cub->image.height = ft_atoi(buf);
 	while (*buf && ft_isspace(*buf))
 		buf++;
 	if (*buf == 0)
@@ -576,7 +578,7 @@ int			ft_valid_num(int num)
 	return (1);
 }
 
-int			ft_parse_color(char *buf)	// 0~255 밖의 숫자가 들어올 경우
+int			ft_parse_color(char *buf)
 {
 	int		color;
 
@@ -776,6 +778,15 @@ int			ft_valid_map(t_cub *cub)
 	return (1);
 }
 
+int			ft_iscub(const char *file_name)
+{
+	while (*file_name)
+		file_name++;
+	if (ft_memcmp(file_name - 4, ".cub", ft_strlen(".cub")))
+		return (-1);
+	return (1);
+}
+
 int			ft_parse_file(t_cub *cub, const char *file_name)
 {
 	int		fd;
@@ -784,6 +795,8 @@ int			ft_parse_file(t_cub *cub, const char *file_name)
 	char		id;
 	int		cnt;
 
+	if (ft_iscub(file_name) == -1)
+		return (-1);
 	fd = open(file_name, O_RDONLY);
 	id = 0;
 	while ((ret = get_next_line(fd, &buf)) > 0)
@@ -796,6 +809,7 @@ int			ft_parse_file(t_cub *cub, const char *file_name)
 		if (cnt == -1)
 			break ;
 	}
+	free(buf);
 	close(fd);
 	if (ret == -1 || cnt == -1 || ft_valid_map(cub) == -1)
 		return (-1);
