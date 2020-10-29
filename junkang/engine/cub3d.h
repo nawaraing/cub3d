@@ -8,8 +8,8 @@
 # include <math.h>
 # include <limits.h>
 # include <CoreGraphics/CGDisplayConfiguration.h>
-# include "mlx/mlx.h"
-# include "gnl/get_next_line.h"
+# include "../mlx/mlx.h"
+# include "../gnl/get_next_line.h"
 # include <stdio.h>			//
 
 # define MOVE_VELO 0.05
