@@ -72,13 +72,13 @@ int			ft_parse_file(t_cub *cub, const char *file_name)
 	if (ft_iscub(file_name) == -1)
 		return (-1);
 	fd = open(file_name, O_RDONLY);
-	id = 0;
 	while ((ret = get_next_line(fd, &buf)) > 0)
 	{
 		id = ft_check_identifier(buf);
 		if (cnt == 8)
 			ft_parse_map(cub, buf);
-		cnt = ft_parse_identifier(cub, buf, id);
+		if ((cnt = ft_parse_identifier(cub, buf, id)) == -1)
+			return (-1);
 		free(buf);
 		if (cnt == -1)
 			break ;
