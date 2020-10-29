@@ -44,3 +44,10 @@ int		ft_key_release(int keycode, t_cub *cub)
 		exit(0);
 	return (0);
 }
+
+int			ft_exit(t_cub *cub)
+{
+	cub = 0;
+	exit(0);
+	return (0);
+}
