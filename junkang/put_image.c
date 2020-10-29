@@ -23,7 +23,8 @@ void			ft_put_image(t_cub *cub, double camera[2])
 	free(dist_to_wall);
 }
 
-void			ft_draw_sprite(t_cub *cub, double camera[2], double *dist_to_wall)
+void			ft_draw_sprite(t_cub *cub, double camera[2], \
+		double *dist_to_wall)
 {
 	double		sp_vec_size_posx_dist[MAX_SP_NUM][5];
 	int		valid_sp_cnt;
@@ -37,7 +38,8 @@ void			ft_draw_sprite(t_cub *cub, double camera[2], double *dist_to_wall)
 		ft_put_sprite(cub, sp_vec_size_posx_dist[i], dist_to_wall);
 }
 
-void			ft_draw_background(t_cub *cub, t_dda_data dda, double *dist_to_wall)
+void			ft_draw_background(t_cub *cub, t_dda_data dda, \
+		double *dist_to_wall)
 {
 	int		wall_height;
 	int		wall_start;

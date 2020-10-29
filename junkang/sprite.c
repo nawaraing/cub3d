@@ -26,7 +26,8 @@ void			ft_sort(double vec[MAX_SP_NUM][5], int cnt)
 	}
 }
 
-void			ft_get_size_posx_dist(t_cub *cub, double vec[MAX_SP_NUM][5], int cnt, double camera[2])
+void			ft_get_size_posx_dist(t_cub *cub, \
+		double vec[MAX_SP_NUM][5], int cnt, double camera[2])
 {
 	int		i;
 	double		cross;
@@ -51,7 +52,8 @@ void			ft_get_size_posx_dist(t_cub *cub, double vec[MAX_SP_NUM][5], int cnt, dou
 	}
 }
 
-void			ft_valid_sprite(t_cub *cub, double camera[2], double vec[MAX_SP_NUM][5], int *sp_cnt)
+void			ft_valid_sprite(t_cub *cub, double camera[2], \
+		double vec[MAX_SP_NUM][5], int *sp_cnt)
 {
 	int		cnt;
 	int		i;
@@ -94,7 +96,8 @@ int			ft_get_color(t_cub *cub, double vec[5], int w, int h)
 	return (color);
 }
 
-void			ft_put_sprite(t_cub *cub, double vec[5], double *dist_to_wall)
+void			ft_put_sprite(t_cub *cub, double vec[5], \
+		double *dist_to_wall)
 {
 	int		*img_addr;
 	int		w;

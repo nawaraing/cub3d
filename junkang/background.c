@@ -1,6 +1,7 @@
 #include "cub3d.h"
 
-void			ft_put_wall(t_cub *cub, t_dda_data dda, int i, int wall_height)
+void			ft_put_wall(t_cub *cub, t_dda_data dda, int i, \
+		int wall_height)
 {
 	double		hp;
 	t_image		xpm_img;
