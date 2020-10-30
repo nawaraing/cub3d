@@ -6,7 +6,7 @@
 /*   By: junkang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/31 22:02:33 by junkang           #+#    #+#             */
-/*   Updated: 2020/06/23 18:46:27 by junkang          ###   ########.fr       */
+/*   Updated: 2020/10/30 20:28:17 by junkang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 # define BUFFER_SIZE 100
 
-int		get_next_line(int fd, char **line);
+int			get_next_line(int fd, char **line);
 char		*ft_strdup(const char *s);
 size_t		ft_strlen(const char *s);
 char		*ft_strjoin(char const *s1, char const *s2);

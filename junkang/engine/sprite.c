@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sprite.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: junkang <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/30 19:17:12 by junkang           #+#    #+#             */
+/*   Updated: 2020/10/30 19:50:55 by junkang          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 void			ft_sort(double vec[MAX_SP_NUM][5], int cnt)
 {
-	int		i;
-	int		j;
+	int			i;
+	int			j;
 	double		tmp[2];
 
 	j = cnt + 1;
@@ -26,10 +38,10 @@ void			ft_sort(double vec[MAX_SP_NUM][5], int cnt)
 	}
 }
 
-void			ft_get_size_posx_dist(t_cub *cub, \
-		double vec[MAX_SP_NUM][5], int cnt, double camera[2])
+void			ft_get_size_posx_dist(t_cub *cub,\
+				double vec[MAX_SP_NUM][5], int cnt, double camera[2])
 {
-	int		i;
+	int			i;
 	double		cross;
 	double		sx;
 	double		sy;
@@ -52,11 +64,11 @@ void			ft_get_size_posx_dist(t_cub *cub, \
 	}
 }
 
-void			ft_valid_sprite(t_cub *cub, double camera[2], \
-		double vec[MAX_SP_NUM][5], int *sp_cnt)
+void			ft_valid_sprite(t_cub *cub, double camera[2],\
+				double vec[MAX_SP_NUM][5], int *sp_cnt)
 {
-	int		cnt;
-	int		i;
+	int			cnt;
+	int			i;
 	double		sx;
 	double		sy;
 	double		coss;
@@ -70,7 +82,7 @@ void			ft_valid_sprite(t_cub *cub, double camera[2], \
 		sx = (sx - cub->user.x);
 		sy = (cub->user.y - sy);
 		coss = (camera[0] * sx + camera[1] * sy) / \
-		       sqrt(pow(sx, 2) + pow(sy, 2));
+				sqrt(pow(sx, 2) + pow(sy, 2));
 		if (coss > 0.0000001)
 		{
 			vec[cnt][0] = sx;
@@ -82,7 +94,7 @@ void			ft_valid_sprite(t_cub *cub, double camera[2], \
 	*sp_cnt = cnt;
 }
 
-int			ft_get_color(t_cub *cub, double vec[5], int w, int h)
+static int		ft_get_color(t_cub *cub, double vec[5], int w, int h)
 {
 	int		*xpm_addr;
 	int		color;
@@ -96,13 +108,13 @@ int			ft_get_color(t_cub *cub, double vec[5], int w, int h)
 	return (color);
 }
 
-void			ft_put_sprite(t_cub *cub, double vec[5], \
-		double *dist_to_wall)
+void			ft_put_sprite(t_cub *cub, double vec[5],\
+				double *dist_to_wall)
 {
 	int		*img_addr;
 	int		w;
 	int		h;
-	int		color;	
+	int		color;
 
 	img_addr = (int *)cub->image.addr;
 	w = (int)(vec[3] - vec[2] / 2) - 1;

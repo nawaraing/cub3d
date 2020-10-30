@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   valid_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: junkang <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/30 19:17:53 by junkang           #+#    #+#             */
+/*   Updated: 2020/10/30 19:18:42 by junkang          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-int			ft_check_vertical(t_cub *cub, int i, int j, int set)
+static int	ft_check_vertical(t_cub *cub, int i, int j, int set)
 {
 	while (cub->map[i][j] != 1)
 	{
@@ -18,7 +30,7 @@ int			ft_check_vertical(t_cub *cub, int i, int j, int set)
 	return (1);
 }
 
-int			ft_check_one_user(t_cub *cub)
+static int	ft_check_one_user(t_cub *cub)
 {
 	int		i;
 	int		j;

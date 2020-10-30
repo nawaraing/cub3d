@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   move.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: junkang <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/30 19:22:24 by junkang           #+#    #+#             */
+/*   Updated: 2020/10/30 19:49:24 by junkang          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-int			ft_near_by_wall(t_cub *cub, double x, double y)
+static int		ft_near_by_wall(t_cub *cub, double x, double y)
 {
 	int		obj;
 
@@ -19,11 +31,11 @@ int			ft_near_by_wall(t_cub *cub, double x, double y)
 	return (0);
 }
 
-void			ft_move_left_right(t_cub *cub, double camera[2], \
-		double *x, double *y)
+static void		ft_move_left_right(t_cub *cub, double camera[2],\
+				double *x, double *y)
 {
 	t_hook_data		hk;
-	
+
 	hk = cub->hook;
 	if (!hk.w && hk.a && !hk.s && !hk.d)
 	{
@@ -37,12 +49,11 @@ void			ft_move_left_right(t_cub *cub, double camera[2], \
 	}
 }
 
-
-void			ft_move_front_back(t_cub *cub, double camera[2], \
-		double *x, double *y)
+static void		ft_move_front_back(t_cub *cub, double camera[2],\
+				double *x, double *y)
 {
 	t_hook_data		hk;
-	
+
 	hk = cub->hook;
 	if (hk.w && !hk.a && !hk.s && !hk.d)
 	{
@@ -86,7 +97,8 @@ void			ft_turn(t_cub *cub)
 		cub->user.horizon += TURN_VELO * 3;
 	else if (!hk.up && hk.down && !hk.left && !hk.right)
 		cub->user.horizon -= TURN_VELO * 3;
-	if (cub->user.horizon < 0) cub->user.horizon = 0;
-	else if (cub->user.horizon > cub->image.height) cub->user.horizon = \
-		cub->image.height;
+	if (cub->user.horizon < 0)
+		cub->user.horizon = 0;
+	else if (cub->user.horizon > cub->image.height)
+		cub->user.horizon = cub->image.height;
 }

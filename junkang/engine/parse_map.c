@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: junkang <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/30 18:54:07 by junkang           #+#    #+#             */
+/*   Updated: 2020/10/30 19:40:09 by junkang          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-void			ft_save_user(t_cub *cub, char c, int i)
+static void		ft_save_user(t_cub *cub, char c, int i)
 {
 	if (c == 'E')
 		cub->user.radian = 0;
@@ -33,7 +45,7 @@ void			ft_parse_map(t_cub *cub, char *buf)
 			cub->sprite_pos[cub->sprite_cnt][1] = cub->map_h + 0.5;
 			cub->sprite_cnt++;
 		}
-		else if (*(buf + i)  == ' ')
+		else if (*(buf + i) == ' ')
 			cub->map[cub->map_h][i] = ' ';
 		else
 			ft_save_user(cub, *(buf + i), i);

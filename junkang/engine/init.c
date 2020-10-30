@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: junkang <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/30 19:17:08 by junkang           #+#    #+#             */
+/*   Updated: 2020/10/30 20:13:28 by junkang          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-void		ft_init_hook(t_cub *cub)
+static void		ft_init_hook(t_cub *cub)
 {
 	cub->hook.a = 0;
 	cub->hook.s = 0;
@@ -12,21 +24,28 @@ void		ft_init_hook(t_cub *cub)
 	cub->hook.right = 0;
 }
 
-void		ft_init_map(t_cub *cub)
+static void		ft_init_map(t_cub *cub)
 {
-	for (int i = 0; i < MAX_MAP_NUM; i++)
-		for (int j = 0; j < MAX_MAP_NUM; j++)
+	int		i;
+	int		j;
+
+	i = -1;
+	while (++i < MAX_MAP_NUM)
+	{
+		j = -1;
+		while (++j < MAX_MAP_NUM)
 			cub->map[i][j] = 0;
+	}
 	cub->map_h = 0;
 }
 
-void		ft_init_img_and_addr(t_cub *cub)
+static void		ft_init_img_and_addr(t_cub *cub)
 {
-	int		mainDisplayId;
+	int		displayid;
 
-	mainDisplayId = CGMainDisplayID();
-	cub->image.width = CGDisplayPixelsWide(mainDisplayId);
-	cub->image.height = CGDisplayPixelsHigh(mainDisplayId);
+	displayid = CGMainDisplayID();
+	cub->image.width = CGDisplayPixelsWide(displayid);
+	cub->image.height = CGDisplayPixelsHigh(displayid);
 	cub->xpm.floor.img_ptr = 0;
 	cub->xpm.ceil.img_ptr = 0;
 	cub->xpm.north_wall.img_ptr = 0;
@@ -45,19 +64,34 @@ void		ft_init_img_and_addr(t_cub *cub)
 	cub->xpm.ceil_color = 0;
 }
 
-int		ft_init_cub(t_cub *cub, int argc, char *argv[])
+static void		ft_init_sprite(t_cub *cub)
+{
+	int		i;
+	int		j;
+
+	i = -1;
+	while (++i < MAX_SP_NUM)
+	{
+		j = -1;
+		while (++j < 2)
+			cub->sprite_pos[i][j] = 0;
+	}
+}
+
+int				ft_init_cub(t_cub *cub, int argc, char *argv[])
 {
 	int		errnum;
 
 	if (argc > 3 || argc < 2)
-		return (0);
+	{
+		write(1, "Error\n", 6);
+		return (-1);
+	}
 	cub->mlx_ptr = mlx_init();
 	ft_init_map(cub);
 	ft_init_hook(cub);
 	ft_init_img_and_addr(cub);
-	for (int i = 0; i < MAX_SP_NUM; i++)
-		for (int j = 0; j < 2; j++)
-			cub->sprite_pos[i][j] = 0;
+	ft_init_sprite(cub);
 	cub->sprite_cnt = 0;
 	cub->user.radian = -1;
 	if ((errnum = ft_parse_file(cub, argv[1])) < 0)

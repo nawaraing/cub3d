@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_floor_ceil.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: junkang <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/30 19:22:54 by junkang           #+#    #+#             */
+/*   Updated: 2020/10/30 19:42:39 by junkang          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-int			ft_parse_path(t_cub *cub, char *buf, char type)
+static int	ft_parse_path(t_cub *cub, char *buf, char type)
 {
 	char		*path;
 	void		*tmp;
@@ -13,13 +25,13 @@ int			ft_parse_path(t_cub *cub, char *buf, char type)
 	else
 		xpm_img = &(cub->xpm.ceil);
 	path = ft_strdup(buf);
-	tmp = mlx_xpm_file_to_image(cub->mlx_ptr, path, \
+	tmp = mlx_xpm_file_to_image(cub->mlx_ptr, path,\
 			&((*xpm_img).width), &((*xpm_img).height));
 	free(path);
 	if (tmp == 0)
 		return (-1);
 	(*xpm_img).img_ptr = tmp;
-	(*xpm_img).addr = mlx_get_data_addr(tmp, &((*xpm_img).bpp), \
+	(*xpm_img).addr = mlx_get_data_addr(tmp, &((*xpm_img).bpp),\
 			&((*xpm_img).sl), &((*xpm_img).endian));
 	while (*buf && !ft_isspace(*buf))
 		buf++;
@@ -28,14 +40,14 @@ int			ft_parse_path(t_cub *cub, char *buf, char type)
 	return (1);
 }
 
-int			ft_valid_num(int num)
+static int	ft_valid_num(int num)
 {
 	if (num < 0 || num > 255)
 		return (-1);
 	return (1);
 }
 
-int			ft_parse_color(char *buf)
+static int	ft_parse_color(char *buf)
 {
 	int		color;
 
@@ -65,7 +77,7 @@ int			ft_parse_color(char *buf)
 int			ft_parse_floor_ceil(t_cub *cub, char *buf)
 {
 	char		type;
-	int		color;
+	int			color;
 
 	if (*buf != 'F' && *buf != 'C')
 		return (-1);
@@ -80,9 +92,8 @@ int			ft_parse_floor_ceil(t_cub *cub, char *buf)
 		if (ft_parse_path(cub, buf, type) == -1)
 			return (-1);
 	}
-	else
-		if ((color = ft_parse_color(buf)) == -1)
-			return (-1);
+	else if ((color = ft_parse_color(buf)) == -1)
+		return (-1);
 	if (type == 'F')
 		cub->xpm.floor_color = color;
 	else

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   screenshot.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: junkang <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/30 19:22:34 by junkang           #+#    #+#             */
+/*   Updated: 2020/10/30 19:47:18 by junkang          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 static void		ft_itoc_put(int num, unsigned char *header)
@@ -56,10 +68,10 @@ static void		ft_put_pixels(int fd, t_image *img)
 	return ;
 }
 
-void		ft_screenshot(t_cub *cub)
+void			ft_screenshot(t_cub *cub)
 {
-	int		fd;
-	int		filesize;
+	int			fd;
+	int			filesize;
 	double		camera[2];
 
 	camera[0] = cos((double)cub->user.radian * PI / 180);

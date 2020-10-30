@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: junkang <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/30 18:32:00 by junkang           #+#    #+#             */
+/*   Updated: 2020/10/30 19:22:22 by junkang          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 int		ft_atoi(const char *nptr)
 {
 	unsigned long long		res;
-	int				sign;
+	int						sign;
 
 	res = 0;
 	while ((*nptr >= 9 && *nptr <= 13) || *nptr == 32)
@@ -44,7 +56,7 @@ int		ft_memcmp(const void *s1, const void *s2, size_t n)
 	return (res);
 }
 
-void		*ft_memset(void *ptr, int value, size_t num)
+void	*ft_memset(void *ptr, int value, size_t num)
 {
 	void	*res;
 

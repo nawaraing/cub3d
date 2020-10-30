@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_file.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: junkang <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/30 19:17:34 by junkang           #+#    #+#             */
+/*   Updated: 2020/10/30 19:17:34 by junkang          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-char			ft_check_identifier(char *buf)
+static char	ft_check_identifier(char *buf)
 {
 	if (buf[0] == 'R')
 		return ('r');
@@ -23,7 +35,7 @@ char			ft_check_identifier(char *buf)
 	return (-1);
 }
 
-int			ft_parse_identifier(t_cub *cub, char *buf, int id)
+static int	ft_parse_identifier(t_cub *cub, char *buf, int id)
 {
 	static int		cnt = 0;
 
@@ -52,7 +64,7 @@ int			ft_parse_identifier(t_cub *cub, char *buf, int id)
 	return (cnt);
 }
 
-int			ft_iscub(const char *file_name)
+static int	ft_iscub(const char *file_name)
 {
 	while (*file_name)
 		file_name++;

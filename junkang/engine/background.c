@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   background.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: junkang <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/30 18:30:42 by junkang           #+#    #+#             */
+/*   Updated: 2020/10/30 19:36:35 by junkang          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-void			ft_put_wall(t_cub *cub, t_dda_data dda, int i, \
-		int wall_height)
+void			ft_put_wall(t_cub *cub, t_dda_data dda, int i,\
+				int wall_height)
 {
 	double		hp;
 	t_image		xpm_img;
-	int		*xpm_addr;
-	int		*img_addr;
-	int		wall_start;
+	int			*xpm_addr;
+	int			*img_addr;
+	int			wall_start;
 
 	hp = dda.hit_point;
 	img_addr = (int *)cub->image.addr;
@@ -30,9 +42,9 @@ void			ft_draw_floor(t_cub *cub, t_dda_data dda, int i)
 {
 	double		pixel_dist;
 	double		xpm[2];
-	int		*xpm_addr;
-	int		*img_addr;
-	int		color;
+	int			*xpm_addr;
+	int			*img_addr;
+	int			color;
 
 	pixel_dist = 0.5 * cub->image.height / (i - cub->user.horizon);
 	xpm[0] = cub->user.x + dda.ray_vec[0] * pixel_dist;
@@ -53,9 +65,9 @@ void			ft_draw_ceil(t_cub *cub, t_dda_data dda, int i)
 {
 	double		pixel_dist;
 	double		xpm[2];
-	int		*xpm_addr;
-	int		*img_addr;
-	int		color;
+	int			*xpm_addr;
+	int			*img_addr;
+	int			color;
 
 	pixel_dist = 0.5 * cub->image.height / (cub->user.horizon - i);
 	xpm[0] = cub->user.x + dda.ray_vec[0] * pixel_dist;

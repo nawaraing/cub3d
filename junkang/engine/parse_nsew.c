@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_nsew.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: junkang <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/30 19:21:59 by junkang           #+#    #+#             */
+/*   Updated: 2020/10/30 19:50:28 by junkang          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 int			ft_parse_north(t_cub *cub, char *buf)
@@ -27,7 +39,6 @@ int			ft_parse_north(t_cub *cub, char *buf)
 		return (-1);
 	return (1);
 }
-
 
 int			ft_parse_south(t_cub *cub, char *buf)
 {

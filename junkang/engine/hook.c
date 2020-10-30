@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hook.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: junkang <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/30 18:33:16 by junkang           #+#    #+#             */
+/*   Updated: 2020/10/30 19:22:40 by junkang          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 int		ft_key_press(int keycode, t_cub *cub)
@@ -20,7 +32,6 @@ int		ft_key_press(int keycode, t_cub *cub)
 		cub->hook.right = 1;
 	return (0);
 }
-	
 
 int		ft_key_release(int keycode, t_cub *cub)
 {
@@ -45,7 +56,7 @@ int		ft_key_release(int keycode, t_cub *cub)
 	return (0);
 }
 
-int			ft_exit(t_cub *cub)
+int		ft_exit(t_cub *cub)
 {
 	cub = 0;
 	exit(0);
