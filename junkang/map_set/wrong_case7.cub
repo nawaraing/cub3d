@@ -1,0 +1,12 @@
+R 100 100
+NO ./xpm_file/wall_1.xpm
+SO ./xpm_file/wall_2.xpm
+WE ./xpm_file/wall_3.xpm
+EA ./xpm_file/wall_4.xpm
+S ./xpm_file/sprite_1.xpm
+F ./xpm_file/floor_1.xpm
+C ./xpm_file/sky_1.xpm
+
+11111111
+10A00001
+11111111

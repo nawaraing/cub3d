@@ -47,6 +47,8 @@ void		ft_init_img_and_addr(t_cub *cub)
 
 int		ft_init_cub(t_cub *cub, int argc, char *argv[])
 {
+	int		errnum;
+
 	if (argc > 3 || argc < 2)
 		return (0);
 	cub->mlx_ptr = mlx_init();
@@ -58,9 +60,11 @@ int		ft_init_cub(t_cub *cub, int argc, char *argv[])
 			cub->sprite_pos[i][j] = 0;
 	cub->sprite_cnt = 0;
 	cub->user.radian = -1;
-	if (ft_parse_file(cub, argv[1]) == -1)
+	if ((errnum = ft_parse_file(cub, argv[1])) < 0)
 	{
 		write(1, "Error\n", 6);
+		if (errnum == -2)
+			write(1, strerror(errno), ft_strlen(strerror(errno)));
 		return (-1);
 	}
 	cub->user.horizon = cub->image.height / 2;

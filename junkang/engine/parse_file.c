@@ -18,7 +18,7 @@ char			ft_check_identifier(char *buf)
 		return ('f');
 	else if (buf[0] == 'C')
 		return ('c');
-	else if (buf[0] == '\n')
+	else if (buf[0] == 0)
 		return (0);
 	return (-1);
 }
@@ -63,15 +63,16 @@ int			ft_iscub(const char *file_name)
 
 int			ft_parse_file(t_cub *cub, const char *file_name)
 {
-	int		fd;
-	int		ret;
+	int			fd;
+	int			ret;
 	char		*buf;
 	char		id;
-	int		cnt;
+	int			cnt;
 
+	if ((fd = open(file_name, O_RDONLY)) < 1)
+		return (-2);
 	if (ft_iscub(file_name) == -1)
 		return (-1);
-	fd = open(file_name, O_RDONLY);
 	while ((ret = get_next_line(fd, &buf)) > 0)
 	{
 		id = ft_check_identifier(buf);
@@ -80,8 +81,6 @@ int			ft_parse_file(t_cub *cub, const char *file_name)
 		if ((cnt = ft_parse_identifier(cub, buf, id)) == -1)
 			return (-1);
 		free(buf);
-		if (cnt == -1)
-			break ;
 	}
 	free(buf);
 	close(fd);
